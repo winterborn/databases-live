@@ -93,88 +93,69 @@ You may choose to test-drive this class, but unless it contains any more logic t
 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
+```ruby
 # EXAMPLE
 
-# Table name: students
-
+# Table name: artists
 # Repository class
 
-# (in lib/student_repository.rb)
-
-class StudentRepository
+# (in lib/artist_repository.rb)
+class ArtistRepository
 
 # Selecting all records
-
 # No arguments
-
-def all # Executes the SQL query: # SELECT id, name, cohort_name FROM students;
-
-    # Returns an array of Student objects.
-
-end
+   def all
+   # Executes the SQL query: # SELECT id, name, genre FROM artists;
+   # Returns an array of Artist objects.
+   end
 
 # Gets a single record by its ID
-
 # One argument: the id (number)
-
-def find(id) # Executes the SQL query: # SELECT id, name, cohort_name FROM students WHERE id = $1;
-
-    # Returns a single Student object.
-
+   def find(id)
+   # Executes the SQL query: # SELECT id, name, genre FROM artists WHERE id = $2;
+   # Returns a single Artist object.
+   end
 end
+```
 
-# Add more methods below for each operation you'd like to implement.
-
-# def create(student)
-
-# end
-
-# def update(student)
-
-# end
-
-# def delete(student)
-
-# end
-
-end 6. Write Test Examples
-Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
+6. Write Test Examples
+   Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
 
 These examples will later be encoded as RSpec tests.
 
+```ruby
 # EXAMPLES
 
 # 1
+# Get all artists
 
-# Get all students
+repo = ArtistRepository.new
+artists = repo.all
+artists.length # => 2
 
-repo = StudentRepository.new
-
-students = repo.all
-
-students.length # => 2
-
-students[0].id # => 1
-students[0].name # => 'David'
-students[0].cohort_name # => 'April 2022'
-
-students[1].id # => 2
-students[1].name # => 'Anna'
-students[1].cohort_name # => 'May 2022'
+artists.id # => 1
+artists.name # => 'Blink-182'
+artists.genre # => 'Alternative'
 
 # 2
+# Get a single artist
 
-# Get a single student
+repo = ArtistRepository.new
+artists = repo.find(1)
 
-repo = StudentRepository.new
+artists.name # => 'Blink-182'
+artists.genre # => 'Alternative'
 
-student = repo.find(1)
+# 3
+# Get another single artist
 
-student.id # => 1
-student.name # => 'David'
-student.cohort_name # => 'April 2022'
+repo = ArtistRepository.new
+artists = repo.find(2)
 
-# Add more examples for each method
+artists.name # => 'Toto'
+artists.genre # => 'Pop'
+
+```
 
 Encode this example as a test.
 
@@ -202,6 +183,14 @@ end
 
 end 8. Test-drive and implement the Repository class behaviour
 After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour.
+
+```
+
+```
+
+```
+
+```
 
 ```
 
