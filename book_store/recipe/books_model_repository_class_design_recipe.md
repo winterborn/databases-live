@@ -8,12 +8,14 @@ Otherwise, follow this recipe to design and create the SQL schema for your table
 
 In this template, we'll use an example table students
 
+```sql
 # EXAMPLE
 
 Table: students
 
 Columns:
 id | name | cohort_name
+```
 
 2. Create Test SQL seeds
    Your tests will depend on data stored in PostgreSQL to run.
@@ -50,16 +52,16 @@ psql -h 127.0.0.1 your*database_name < seeds*{table_name}.sql
 
 ```ruby
 # EXAMPLE
-# Table name: artists
+# Table name: books
 
 # Model class
-# (in lib/artist.rb)
-class Artist
+# (in lib/book.rb)
+class Book
 end
 
 # Repository class
-# (in lib/artist_repository.rb)
-class ArtistRepository
+# (in lib/book_repository.rb)
+class BookRepository
 end
 ```
 
@@ -68,13 +70,13 @@ end
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: books
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/book.rb)
+class Book
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+  attr_accessor :id, :title, :author_name
 end
 
 # The keyword attr_accessor is a special Ruby feature
@@ -93,88 +95,54 @@ You may choose to test-drive this class, but unless it contains any more logic t
 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
+```ruby
+
 # EXAMPLE
 
-# Table name: students
-
+# Table name: books
 # Repository class
+# (in lib/book_repository.rb)
 
-# (in lib/student_repository.rb)
-
-class StudentRepository
-
+class BookRepository
 # Selecting all records
-
 # No arguments
-
-def all # Executes the SQL query: # SELECT id, name, cohort_name FROM students;
-
-    # Returns an array of Student objects.
-
+   def all
+      # Executes the SQL query: # SELECT id, title, author_name FROM books;
+      # Returns an array of Book objects.
+   end
 end
+```
 
-# Gets a single record by its ID
-
-# One argument: the id (number)
-
-def find(id) # Executes the SQL query: # SELECT id, name, cohort_name FROM students WHERE id = $1;
-
-    # Returns a single Student object.
-
-end
-
-# Add more methods below for each operation you'd like to implement.
-
-# def create(student)
-
-# end
-
-# def update(student)
-
-# end
-
-# def delete(student)
-
-# end
-
-end 6. Write Test Examples
-Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
+6. Write Test Examples
+   Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
 
 These examples will later be encoded as RSpec tests.
+
+```ruby
 
 # EXAMPLES
 
 # 1
+# Get all books
 
-# Get all students
+repo = BookRepository.new
+books = repo.all
+books.length # => 2 due to seeds_books having 2 entries
+books.first.id # => ('1')
+books.first.title # => ('Ready Player One')
+books.first.author_name # => ('Ernest Cline')
 
-repo = StudentRepository.new
-
-students = repo.all
-
-students.length # => 2
-
-students[0].id # => 1
-students[0].name # => 'David'
-students[0].cohort_name # => 'April 2022'
-
-students[1].id # => 2
-students[1].name # => 'Anna'
-students[1].cohort_name # => 'May 2022'
 
 # 2
+# Get a single book
 
-# Get a single student
+repo = BookRepository.new
+books = repo.find(1)
+books.id # => 1
+books.title # => ('Ready Player One')
+books.author_name # => ('Ernest Cline')
 
-repo = StudentRepository.new
-
-student = repo.find(1)
-
-student.id # => 1
-student.name # => 'David'
-student.cohort_name # => 'April 2022'
-
-# Add more examples for each method
+```
 
 Encode this example as a test.
 
@@ -183,6 +151,7 @@ Encode this example as a test.
 
 This is so you get a fresh table contents every time you run the test suite.
 
+```ruby
 # EXAMPLE
 
 # file: spec/student_repository_spec.rb
@@ -199,6 +168,7 @@ reset_students_table
 end
 
 # (your tests will go here).
+```
 
 8. Test-drive and implement the Repository class behaviour
    After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour.
