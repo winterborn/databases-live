@@ -28,9 +28,9 @@ recipes, names, cooking time, rating
 
 Put the different nouns in this table. Replace the example with your own nouns.
 
-| Record    | Properties                     |
-| ------    | -------------------            |
-| recipes  | names, cooking time, rating |
+| Record  | Properties                  |
+| ------- | --------------------------- |
+| recipes | names, cooking time, rating |
 
 Name of the table (always plural): `recipes`
 
@@ -75,9 +75,9 @@ CREATE TABLE recipes (
 psql -h 127.0.0.1 recipes_directory < recipes_table.sql
 ```
 
-Examples inputs
+<!-- Examples inputs
 
 #1 Pasta  R.2 C.15min
 #2 Sunday Roast R.3 C.120m
-#3 Steak R.4 C.8m 
-#4 Sushi R.5 C.20
+#3 Steak R.4 C.8m
+#4 Sushi R.5 C.20 -->

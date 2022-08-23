@@ -8,7 +8,7 @@ If the table is already created in the database, you can skip this step.
 
 Otherwise, [follow this recipe to design and create the SQL schema for your table](./single_table_design_recipe_template.md).
 
-*In this template, we'll use an example table `students`*
+_In this template, we'll use an example table `students`_
 
 ```
 # EXAMPLE
@@ -29,7 +29,7 @@ If seed data is provided (or you already created it), you can skip this step.
 -- EXAMPLE
 -- (file: spec/seeds_{table_name}.sql)
 
--- Write your SQL seed here. 
+-- Write your SQL seed here.
 
 -- First, you'd need to truncate the table - this is so our table is emptied between each test run,
 -- so we can start with a fresh state.
@@ -49,6 +49,8 @@ Run this SQL file on the database to truncate (empty) the table, and insert the 
 
 ```bash
 psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
+
+# have done and set this up prior - created test database, loaded in sql file of recipes and then loaded in test seeds.sql
 ```
 
 ## 3. Define the class names
@@ -96,7 +98,7 @@ end
 # student.name
 ```
 
-*You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.*
+_You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed._
 
 ## 5. Define the Repository Class interface
 
@@ -117,7 +119,7 @@ class RecipeRepository
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cooking_time, rating FROM recipes;
+    # SELECT id, names, cooking_time, rating FROM recipes;
     # Returns an array of Recipe objects.
   end
 
@@ -125,7 +127,7 @@ class RecipeRepository
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, name, cooking_time, rating FROM recipes WHERE id = $1;
+    # SELECT id, names, cooking_time, rating FROM recipes WHERE id = $1;
     # Returns a single Recipe object.
   end
 end
@@ -139,6 +141,8 @@ These examples will later be encoded as RSpec tests.
 
 ```ruby
 # EXAMPLES
+
+# completed this as part of pair-programming this afternoon
 
 # 1
 # Get all recipes
@@ -203,7 +207,7 @@ def reset_students_table
 end
 
 describe StudentRepository do
-  before(:each) do 
+  before(:each) do
     reset_students_table
   end
 
