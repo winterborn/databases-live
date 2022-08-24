@@ -5,46 +5,50 @@ _Copy this recipe template to design and create two related database tables from
 ## 1. Extract nouns from the user stories or specification
 
 ```
-As a coach
-So I can get to know all students
-I want to see a list of students' names.
+As a blogger
+So I can write interesting stuff
+I want to write posts having a title.
 
-As a coach
-So I can get to know all students
-I want to see a list of cohorts' names.
+As a blogger
+So I can write interesting stuff
+I want to write posts having a content.
 
-As a coach
-So I can get to know all students
-I want to see a list of cohorts' starting dates.
+As a blogger
+So I can let people comment on interesting stuff
+I want to allow comments on my posts.
 
-As a coach
-So I can get to know all students
-I want to see a list of students' cohorts.
+As a blogger
+So I can let people comment on interesting stuff
+I want the comments to have a content.
+
+As a blogger
+So I can let people comment on interesting stuff
+I want the author to include their name in comments.
 ```
 
 ```
 Nouns:
 
-students, names
-cohorts, names, start_date, students_cohorts
+posts, title, content
+comments, posts, content, author_name
 ```
 
 ## 2. Infer the Table Name and Columns
 
 Put the different nouns in this table. Replace the example with your own nouns.
 
-| Record   | Properties       |
-| -------- | ---------------- |
-| students | name, cohort_id  |
-| cohorts  | name, start_date |
+| Record   | Properties                  |
+| -------- | --------------------------- |
+| posts    | title, content              |
+| comments | posts, content, author_name |
 
-1. Name of the first table (always plural): `students`
+1. Name of the first table (always plural): `posts`
 
-   Column names: `name`, `cohort_id`
+   Column names: `title`, `content`
 
-2. Name of the second table (always plural): `cohorts`
+2. Name of the second table (always plural): `comments`
 
-   Column names: `name`, `start_date`
+   Column names: `posts`, `content`, `author_name`
 
 ## 3. Decide the column types.
 
@@ -57,15 +61,16 @@ Remember to **always** have the primary key `id` as a first column. Its type wil
 ```
 # EXAMPLE:
 
-Table: students
+Table: posts
 id: SERIAL
-name: text
-cohort_id: int
+title: text
+content: text
 
-Table: cohorts
+Table: comments
 id: SERIAL
-name: text
-start_date: timestamp
+posts: text
+content: text
+author_name: text
 ```
 
 ## 4. Decide on The Tables Relationship
@@ -74,29 +79,16 @@ Most of the time, you'll be using a **one-to-many** relationship, and will need 
 
 To decide on which one, answer these two questions:
 
-1. Can one STUDENT have many COHORTS? (No)
-2. Can one COHORT have many STUDENTS? (Yes)
+1. Can one POST have many COMMENTS (YES)
+2. Can one COMMENT have many POSTS? (NO)
 
 You'll then be able to say that:
 
-1. **[COHORT] has many [STUDENTS]**
-2. And on the other side, **[STUDENT] belongs to [COHORT]**
-3. In that case, the foreign key is in the table [STUDENTS]
+1. **[POST] has many [COMMENTS]**
+2. And on the other side, **[COMMENTS] belongs to [POSTS]**
+3. In that case, the foreign key is in the table [COMMENTS]
 
 Replace the relevant bits in this example with your own:
-
-```
-# EXAMPLE
-
-1. Can one artist have many albums? YES
-2. Can one album have many artists? NO
-
--> Therefore,
--> An artist HAS MANY albums
--> An album BELONGS TO an artist
-
--> Therefore, the foreign key is on the albums table.
-```
 
 _If you can answer YES to the two questions, you'll probably have to implement a Many-to-Many relationship, which is more complex and needs a third table (called a join table)._
 
@@ -104,25 +96,26 @@ _If you can answer YES to the two questions, you'll probably have to implement a
 
 ```sql
 -- EXAMPLE
--- file: students_table.sql
+-- file: posts_table.sql
 
 -- Replace the table name, columm names and types.
 
 -- Create the table without the foreign key first.
-CREATE TABLE cohorts (
+CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
-  name text,
-  start_date timestamp
+  title text,
+  content text
 );
 
--- Then the table with the foreign key first.
-CREATE TABLE students (
+-- Then the table with the foreign key.
+CREATE TABLE comments (
   id SERIAL PRIMARY KEY,
-  name text,
+  content text,
+  author_name text,
 -- The foreign key name is always {other_table_singular}_id
-  cohort_id int,
-  constraint fk_cohort foreign key(cohort_id)
-    references cohorts(id)
+  post_id int,
+  constraint fk_post foreign key(post_id)
+    references posts(id)
     on delete cascade
 );
 
