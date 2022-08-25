@@ -15,3 +15,12 @@ album_repository = AlbumRepository.new
 
 artist = artist_repository.find(3)
 puts "#{artist.name} - #{artist.genre}"
+
+
+# Create new album and show all:
+new_album = Album.new
+new_album.title = 'Take off Your Pants and Jacket'
+new_album.release_year = '2001'
+new_album.artist_id = '5'
+album_repository.create(new_album)
+album_repository.all.each { |album| p album }

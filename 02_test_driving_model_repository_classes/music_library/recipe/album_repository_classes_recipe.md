@@ -116,11 +116,11 @@ class ArtistRepository
    # Returns a single Artist object.
    end
 
-# Insert a new artist record
-# Takes an Artist object in argument
-   def create(artist)
+# Insert a new album record
+# Takes an Album object in argument
+   def create(album)
       # Executes SQL query:
-      # INSERT INTO artists (name, genre) VALUES ($1, $2);
+      # INSERT INTO albums (title, release_year, artist_id) VALUES ($1, $2, $3);
       # Does not need to return anything as only creates record
    end
 
@@ -177,20 +177,22 @@ artists.name # => 'Toto'
 artists.genre # => 'Pop'
 
 # 4
-# Create a new artist
-repo = ArtistRepository.new
+# Create a new album
+repo = AlbumRepository.new
 
-artist = Artist.new
-artist.name # => 'The Cure'
-artist.genre # => 'Alternative'
+album = Album.new
+album.title # => 'Take off Your Pants and Jacket'
+album.release_year  # => '2001'
+album.artist_id  # => '5'
 
-repo.create(artist) # => nil
+repo.create(album) # => nil
 
-artists = repo.all
+albums = repo.all
 
-last_artist = artists.last
-last_artist.name # => 'The Cure'
-last_artist.genre # => 'Alternative'
+last_album = albums.last
+last_album.title # => 'Take off Your Pants and Jacket'
+last_album.release_year  # => '2001'
+last_album.artist_id  # => '5'
 
 # 5
 # Delete an artist
