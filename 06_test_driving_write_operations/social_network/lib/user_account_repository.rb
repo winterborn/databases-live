@@ -29,7 +29,7 @@ class UserAccountRepository
         # ask coaches about this ^
 
         user = UserAccount.new
-        user.id = record["id"]
+        user.id = record["id"].to_i
         user.email_address = record["email_address"]
         user.username = record["username"]
 
