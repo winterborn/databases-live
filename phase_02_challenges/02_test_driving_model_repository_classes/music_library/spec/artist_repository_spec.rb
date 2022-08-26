@@ -8,107 +8,122 @@ RSpec.describe ArtistRepository do
   end
 
   describe ArtistRepository do
-    before(:each) { reset_artists_table }
-
-    context "#all method" do
-    it "returns a list of artists" do
-      repo = ArtistRepository.new
-      artists = repo.all
-      expect(artists.length).to eq (2)
-      expect(artists.first.id).to eq ("1")
-      expect(artists.first.name).to eq ("Radiohead")
-    end
-  end
-
-    context "#find method" do
-    it "returns Blink-182 as the first artist" do
-      repo = ArtistRepository.new
-      artists = repo.find(1)
-
-      expect(artists.name).to eq "Radiohead"
-      expect(artists.genre).to eq "Alternative"
+    before(:each) do
+      reset_artists_table
     end
 
-    it "returns Toto as the second artist" do
-      repo = ArtistRepository.new
-      artists = repo.find(2)
+      context "#all method" do
+        it "returns a list of artists" do
+          repo = ArtistRepository.new
+          artists = repo.all
+          expect(artists.length).to eq (2)
+          expect(artists.first.id).to eq ("1")
+          expect(artists.first.name).to eq ("Radiohead")
+        end
+      end
 
-      expect(artists.name).to eq "Toto"
-      expect(artists.genre).to eq "Alternative"
-    end
-  end
+      context "#find method" do
+        it "returns Blink-182 as the first artist" do
+          repo = ArtistRepository.new
+          artists = repo.find(1)
 
-  context "#create method" do
-    it "creates a new artist" do
-      repo = ArtistRepository.new
-      new_artist = Artist.new
-      new_artist.name = "The Cure"
-      new_artist.genre = "Alternative"
+          expect(artists.name).to eq "Radiohead"
+          expect(artists.genre).to eq "Alternative"
+        end
 
-      repo.create(new_artist)
+        it "returns Toto as the second artist" do
+          repo = ArtistRepository.new
+          artists = repo.find(2)
 
-      artists = repo.all
-      last_artist = artists.last
+          expect(artists.name).to eq "Toto"
+          expect(artists.genre).to eq "Alternative"
+        end
+      end
 
-      expect(last_artist.name).to eq "The Cure"
-      expect(last_artist.genre).to eq "Alternative"
-    end
-  end
+      context "#create method" do
+        it "creates a new artist" do
+          repo = ArtistRepository.new
+          new_artist = Artist.new
+          new_artist.name = "The Cure"
+          new_artist.genre = "Alternative"
 
-  context "#delete method" do
-    it "deletes an artist with id = 1" do
-      repo = ArtistRepository.new
+          repo.create(new_artist)
 
-      id_to_delete = 1
+          artists = repo.all
+          last_artist = artists.last
 
-      repo.delete(id_to_delete)
+          expect(last_artist.name).to eq "The Cure"
+          expect(last_artist.genre).to eq "Alternative"
+        end
+      end
 
-      all_artists = repo.all
-      expect(all_artists.length).to eq 1
-      expect(all_artists.first.id).to eq '2'
-    end
+      context "#delete method" do
+        it "deletes an artist with id = 1" do
+          repo = ArtistRepository.new
 
-    it "deletes the two artists" do
-      repo = ArtistRepository.new
-      repo.delete(1)
-      repo.delete(2)
+          id_to_delete = 1
 
-      all_artists = repo.all
-      expect(all_artists.length).to eq 0
-    end
-  end
+          repo.delete(id_to_delete)
 
-  context "#update method" do
-    it "updates the artist given an id, with new values" do
-      repo = ArtistRepository.new
+          all_artists = repo.all
+          expect(all_artists.length).to eq 1
+          expect(all_artists.first.id).to eq '2'
+        end
 
-      artist = repo.find(1)
+        it "deletes the two artists" do
+          repo = ArtistRepository.new
+          repo.delete(1)
+          repo.delete(2)
 
-      artist.name = 'Something else'
-      artist.genre = 'New genre'
+          all_artists = repo.all
+          expect(all_artists.length).to eq 0
+        end
+      end
 
-      repo.update(artist)
+      context "#update method" do
+        it "updates the artist given an id, with new values" do
+          repo = ArtistRepository.new
 
-      updated_artist = repo.find(1)
+          artist = repo.find(1)
 
-      expect(updated_artist.name).to eq "Something else"
-      expect(updated_artist.genre).to eq "New genre"
-    end
+          artist.name = 'Something else'
+          artist.genre = 'New genre'
 
-    it "updates the artist given an id, with new name only" do
-      repo = ArtistRepository.new
+          repo.update(artist)
 
-      artist = repo.find(1)
+          updated_artist = repo.find(1)
 
-      artist.name = 'Something else'
+          expect(updated_artist.name).to eq "Something else"
+          expect(updated_artist.genre).to eq "New genre"
+        end
 
-      repo.update(artist)
+        it "updates the artist genre given an id, with new name only" do
+          repo = ArtistRepository.new
 
-      updated_artist = repo.find(1)
+          artist = repo.find(1)
 
-      expect(updated_artist.name).to eq "Something else"
-      expect(updated_artist.genre).to eq "Alternative"
-    end
-  end
+          artist.name = 'Something else'
+
+          repo.update(artist)
+
+          updated_artist = repo.find(1)
+
+          expect(updated_artist.name).to eq "Something else"
+          expect(updated_artist.genre).to eq "Alternative"
+        end
+      end
+
+      context "#find_with_albums method" do
+        it "finds artist with associated albums" do
+          repo = ArtistRepository.new
+
+          artist = repo.find_with_albums(1)
+
+          expect(artist.name).to eq 'Radiohead'
+          expect(artist.genre).to eq 'Alternative'
+          expect(artist.albums.length).to eq 1
+          expect(artist.albums.first.title).to eq 'OK Computer'
+        end
+      end
   end
 end

@@ -140,6 +140,26 @@ class ArtistRepository
       # Returns nothing as only updates record
    end
 end
+
+# Selects an artist record along with associated album records
+# given artist ID
+
+def find_with_albums(id)
+#    SELECT
+# 	artists.id AS "id",
+# 	artists.name AS "name",
+# 	artists.genre AS "genre",
+# 	albums.id AS "album_id",
+# 	albums.title AS "title",
+# 	albums.release_year AS "release_year"
+# FROM
+# 	artists
+# 	JOIN albums ON albums.artist_id = artists.id
+# WHERE
+# 	artists.id = $1;
+
+# Returns an Artist Object with the array of Album objects
+end
 ```
 
 6. Write Test Examples
@@ -217,6 +237,18 @@ repo.update(artist)
 
 updated_artist.name.to eq "Something else"
 updated_artist.genre.to eq "New genre"
+
+# 7
+# Finds artist with associated albums, given id
+repo = ArtistRepository.new
+
+artist = repo.find_with_albums(1)
+
+artist.name # => 'Pixies'
+artist.genre # => 'Alternative'
+artist.albums.length # => '2'
+artist.albums.first.title # => 'Bossanova'
+
 
 ```
 

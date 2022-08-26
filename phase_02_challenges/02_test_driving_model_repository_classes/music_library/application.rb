@@ -36,11 +36,11 @@ class Application
 
     if number == 1
         @io.puts "Here is a list of albums:"
-        @album_repository.all.each { |album| puts "* #{album.id} - #{album.title}" }
+        @album_repository.all.each { |album| @io.puts "* #{album.id} - #{album.title}" }
     
     elsif number == 2
         @io.puts "Here is a list of artists:"
-        @artist_repository.all.each { |artist| puts "* #{artist.id} - #{artist.name}" }
+        @artist_repository.all.each { |artist| @io.puts "* #{artist.id} - #{artist.name}" }
     end
   end
 end

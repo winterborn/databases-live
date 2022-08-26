@@ -8,7 +8,9 @@ RSpec.describe AlbumRepository do
   end
 
   describe AlbumRepository do
-    before(:each) { reset_albums_table }
+    before(:each) do
+      reset_albums_table
+    end
 
     context "#all method" do
     it "returns a list of albums" do
