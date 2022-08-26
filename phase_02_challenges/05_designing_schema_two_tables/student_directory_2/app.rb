@@ -1,15 +1,16 @@
-# file: app.rb
+require_relative "lib/database_connection"
+require_relative "lib/cohort_repository"
 
-require_relative 'lib/database_connection'
+# Test outputs
+DatabaseConnection.connect("student_directory_2")
 
-# We need to give the database name to the method `connect`.
-DatabaseConnection.connect('music_library')
+# artist_repository = ArtistRepository.new
+# album_repository = AlbumRepository.new
 
-# Perform a SQL query on the database and get the result set.
-sql = 'SELECT id, title FROM albums;'
-result = DatabaseConnection.exec_params(sql, [])
+# Print all cohort names:
+cohort_repo = CohortRepository.new
+# cohort_repo.all.each { |cohort| p cohort.name }
 
-# Print out each record from the result set .
-result.each do |record|
-  p record
-end
+# Print all student names associated with cohort(2)
+cohort = cohort_repo.find_with_students(2)
+puts "#{cohort.name} Cohort:\n #{cohort.start_date}:\n * #{cohort.students.first.name},\n * #{cohort.students.last.name}"
